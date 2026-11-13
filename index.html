@@ -5,18 +5,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#254b40">
+<meta name="description" content="پلنر شخصی رضا">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="پلنر رضا">
+<link rel="manifest" href="./manifest.webmanifest">
 <title>پلنر شخصی رضا</title>
+
 <style>
 :root{
- --bg:#f3f0e5;
- --card:#fffdf6;
- --green:#254b40;
- --green2:#376b59;
- --text:#263b32;
- --muted:#78847c;
- --line:#e5e1d5;
- --danger:#b94b45;
- --font:16px;
+ --bg:#f3f0e5;--card:#fffdf6;--green:#254b40;
+ --green2:#376b59;--text:#263b32;--muted:#78847c;
+ --line:#e5e1d5;--danger:#b94b45;--font:16px;
 }
 *{box-sizing:border-box}
 body{
@@ -31,9 +31,7 @@ header{
 header h1{font-size:23px;margin:0 0 8px}
 header p{font-size:13px;margin:0;color:#e0e9e3}
 .container{max-width:650px;margin:auto;padding:15px}
-.nav{
- display:flex;gap:7px;overflow-x:auto;margin:14px 0;
-}
+.nav{display:flex;gap:7px;overflow-x:auto;margin:14px 0}
 .nav button{white-space:nowrap;flex:1}
 button{
  border:0;border-radius:10px;padding:11px 13px;
@@ -62,10 +60,7 @@ input[type=range]{padding:0}
 .row>*{min-width:0}
 .row input{flex:1}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{
- background:#edf2ed;border-radius:12px;padding:12px 7px;
- text-align:center;
-}
+.stat{background:#edf2ed;border-radius:12px;padding:12px 7px;text-align:center}
 .stat strong{display:block;font-size:21px;color:var(--green)}
 .stat span{font-size:11px;color:var(--muted)}
 .calendar-head{
@@ -73,14 +68,11 @@ input[type=range]{padding:0}
  gap:8px;margin-bottom:12px;
 }
 .calendar-head strong{font-size:15px}
-.calendar{
- display:grid;grid-template-columns:repeat(7,1fr);gap:5px;
-}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
 .weekday{text-align:center;font-size:11px;color:var(--muted);padding:6px 0}
 .day{
  min-height:42px;border-radius:9px;background:#f2f1e9;
- color:var(--text);padding:7px 2px;font-size:13px;
- position:relative;
+ color:var(--text);padding:7px 2px;font-size:13px;position:relative;
 }
 .day.selected{background:var(--green);color:white}
 .day.today{outline:2px solid var(--green2)}
@@ -98,13 +90,9 @@ input[type=range]{padding:0}
 .task .task-title{flex:1;font-size:14px;overflow-wrap:anywhere}
 .task.done .task-title{text-decoration:line-through;color:var(--muted)}
 .empty{text-align:center;color:var(--muted);padding:20px 5px;font-size:13px}
-.progress{
- height:9px;background:#e7e8df;border-radius:20px;overflow:hidden;margin:9px 0;
-}
+.progress{height:9px;background:#e7e8df;border-radius:20px;overflow:hidden;margin:9px 0}
 .progress div{height:100%;background:var(--green2);border-radius:20px}
-.goal{
- border:1px solid var(--line);padding:12px;border-radius:12px;margin:9px 0;
-}
+.goal{border:1px solid var(--line);padding:12px;border-radius:12px;margin:9px 0}
 .goal-top{display:flex;justify-content:space-between;gap:8px}
 .goal-name{font-weight:bold;font-size:14px}
 .goal-numbers{font-size:12px;color:var(--muted);margin-top:8px}
@@ -114,8 +102,8 @@ label{font-size:13px;color:var(--muted)}
 footer{text-align:center;font-size:11px;color:var(--muted);padding:15px}
 </style>
 </head>
-<body>
 
+<body>
 <header>
  <h1>پلنر شخصی رضا</h1>
  <p id="todayText">برنامه‌ریزی روزانه و مدیریت اهداف</p>
@@ -123,10 +111,10 @@ footer{text-align:center;font-size:11px;color:var(--muted);padding:15px}
 
 <div class="container">
  <div class="nav">
-  <button onclick="showSection('daily')">کارهای روزانه</button>
-  <button class="secondary" onclick="showSection('report')">گزارش ماهانه</button>
-  <button class="secondary" onclick="showSection('goals')">اهداف مالی</button>
-  <button class="secondary" onclick="showSection('settings')">تنظیمات</button>
+  <button onclick="showSection('daily',this)">کارهای روزانه</button>
+  <button class="secondary" onclick="showSection('report',this)">گزارش ماهانه</button>
+  <button class="secondary" onclick="showSection('goals',this)">اهداف مالی</button>
+  <button class="secondary" onclick="showSection('settings',this)">تنظیمات</button>
  </div>
 
  <section id="daily" class="section active">
@@ -178,7 +166,7 @@ footer{text-align:center;font-size:11px;color:var(--muted);padding:15px}
     <label>مبلغ موردنیاز (تومان)</label>
     <input id="goalTarget" type="number" min="1" placeholder="مبلغ هدف" required>
     <label>مبلغ پس‌اندازشده (تومان)</label>
-    <input id="goalSaved" type="number" min="0" placeholder="مبلغ فعلی" value="0">
+    <input id="goalSaved" type="number" min="0" value="0">
     <button type="submit">ثبت هدف</button>
    </form>
   </div>
@@ -212,13 +200,14 @@ footer{text-align:center;font-size:11px;color:var(--muted);padding:15px}
   </div>
  </section>
 </div>
+
 <footer>پلنر شخصی رضا | اطلاعات روی همین گوشی ذخیره می‌شود</footer>
 
 <script>
-const $ = id => document.getElementById(id);
-const STORAGE_KEY = "reza_planner_v1";
+const $=id=>document.getElementById(id);
+const STORAGE_KEY="reza_planner_v1";
 
-let data = {
+let data={
  tasks:{},
  goals:[],
  settings:{bg:"#f3f0e5",main:"#254b40",text:"#263b32",font:16}
@@ -230,24 +219,31 @@ function loadData(){
   if(saved){
    const parsed=JSON.parse(saved);
    data={...data,...parsed};
-   data.settings={...{bg:"#f3f0e5",main:"#254b40",text:"#263b32",font:16},...(parsed.settings||{})};
+   data.settings={...data.settings,...(parsed.settings||{})};
   }
- }catch(e){console.log("خطا در خواندن اطلاعات",e)}
+ }catch(e){console.log(e)}
 }
 function saveData(){
  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}
- catch(e){alert("ذخیره اطلاعات انجام نشد. فضای ذخیره‌سازی گوشی را بررسی کن.")}
+ catch(e){alert("ذخیره اطلاعات انجام نشد.")}
 }
-const persianFmt = new Intl.DateTimeFormat("fa-IR-u-ca-persian-nu-latn",{
+
+const persianFmt=new Intl.DateTimeFormat("fa-IR-u-ca-persian-nu-latn",{
  year:"numeric",month:"numeric",day:"numeric"
 });
-const persianLong = new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
+const persianLong=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
  year:"numeric",month:"long",day:"numeric"
 });
-const digits = new Intl.NumberFormat("fa-IR");
+const persianMonth=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
+ year:"numeric",month:"long"
+});
+const digits=new Intl.NumberFormat("fa-IR");
+
 function pParts(date){
  const out={};
- persianFmt.formatToParts(date).forEach(x=>{if(x.type!=="literal")out[x.type]=Number(x.value)});
+ persianFmt.formatToParts(date).forEach(x=>{
+  if(x.type!=="literal")out[x.type]=Number(x.value);
+ });
  return out;
 }
 function keyOf(date){
@@ -263,10 +259,11 @@ function monthDates(year,month){
  const result=[];
  for(let d=new Date(start);d<end;d.setDate(d.getDate()+1)){
   const p=pParts(d);
-  if(p.year===year && p.month===month) result.push(new Date(d));
+  if(p.year===year&&p.month===month)result.push(new Date(d));
  }
  return result;
 }
+
 let today=new Date();
 let todayParts=pParts(today);
 let viewYear=todayParts.year;
@@ -275,37 +272,43 @@ let selectedKey=keyOf(today);
 
 function monthName(y,m){
  const dates=monthDates(y,m);
- return dates.length?persianLong.format(dates[0]).replace(/\s+\d+.*/,"")+" "+digits.format(y):digits.format(y);
+ return dates.length?persianMonth.format(dates[0]):digits.format(y);
 }
-function shiftMonth(amount){
+function changeMonth(amount){
  viewMonth+=amount;
  if(viewMonth>12){viewMonth=1;viewYear++}
  if(viewMonth<1){viewMonth=12;viewYear--}
+ const dates=monthDates(viewYear,viewMonth);
+ if(dates.length)selectedKey=keyOf(dates[0]);
  renderAll();
 }
-function changeMonth(n){shiftMonth(n)}
-function showSection(id){
+function showSection(id,button){
  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
  $(id).classList.add("active");
  document.querySelectorAll(".nav button").forEach(b=>b.classList.add("secondary"));
- event?.currentTarget?.classList.remove("secondary");
+ if(button)button.classList.remove("secondary");
  if(id==="report")renderReport();
  if(id==="goals")renderGoals();
 }
 function safeText(s){
- return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ return String(s).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
+
 function renderCalendar(){
  const dates=monthDates(viewYear,viewMonth);
  $("monthTitle").textContent=monthName(viewYear,viewMonth);
  $("calendar").innerHTML="";
  ["ش","ی","د","س","چ","پ","ج"].forEach(w=>{
-  const el=document.createElement("div");el.className="weekday";el.textContent=w;$("calendar").appendChild(el);
+  const el=document.createElement("div");
+  el.className="weekday";el.textContent=w;
+  $("calendar").appendChild(el);
  });
  if(!dates.length)return;
  const offset=(dates[0].getDay()+1)%7;
  for(let i=0;i<offset;i++){
-  const blank=document.createElement("div");$("calendar").appendChild(blank);
+  $("calendar").appendChild(document.createElement("div"));
  }
  dates.forEach(date=>{
   const key=keyOf(date),p=pParts(date);
@@ -320,6 +323,7 @@ function renderCalendar(){
   $("calendar").appendChild(el);
  });
 }
+
 function renderTasks(){
  const date=dateFromKey(selectedKey);
  $("selectedDateText").textContent="تاریخ انتخاب‌شده: "+persianLong.format(date);
@@ -336,17 +340,21 @@ function renderTasks(){
     <span class="task-title">${safeText(task.title)}</span>
     <button class="danger small">حذف</button>`;
    div.querySelector("input").onchange=e=>{
-    data.tasks[selectedKey][index].done=e.target.checked;saveData();renderAll();
+    data.tasks[selectedKey][index].done=e.target.checked;
+    saveData();renderAll();
    };
    div.querySelector("button").onclick=()=>{
-    data.tasks[selectedKey].splice(index,1);saveData();renderAll();
+    data.tasks[selectedKey].splice(index,1);
+    saveData();renderAll();
    };
    $("taskList").appendChild(div);
   });
  }
  const done=tasks.filter(t=>t.done).length;
- $("dailyProgress").textContent=`${digits.format(done)} از ${digits.format(tasks.length)} کار انجام شده است.`;
+ $("dailyProgress").textContent=
+  `${digits.format(done)} از ${digits.format(tasks.length)} کار انجام شده است.`;
 }
+
 $("taskForm").addEventListener("submit",e=>{
  e.preventDefault();
  const title=$("taskInput").value.trim();
@@ -356,17 +364,20 @@ $("taskForm").addEventListener("submit",e=>{
  $("taskInput").value="";
  saveData();renderAll();
 });
+
 function renderReport(){
  $("reportMonth").textContent=monthName(viewYear,viewMonth);
  const dates=monthDates(viewYear,viewMonth);
- let total=0,done=0;
- let html="";
+ let total=0,done=0,html="";
  dates.forEach(date=>{
   const key=keyOf(date),tasks=data.tasks[key]||[];
   if(tasks.length){
    const finished=tasks.filter(t=>t.done).length;
    total+=tasks.length;done+=finished;
-   html+=`<div class="task"><span class="task-title">${safeText(persianLong.format(date))}</span><span class="muted">${digits.format(finished)} از ${digits.format(tasks.length)}</span></div>`;
+   html+=`<div class="task">
+   <span class="task-title">${safeText(persianLong.format(date))}</span>
+   <span class="muted">${digits.format(finished)} از ${digits.format(tasks.length)}</span>
+   </div>`;
   }
  });
  const percent=total?Math.round(done/total*100):0;
@@ -374,8 +385,10 @@ function renderReport(){
  $("doneTasks").textContent=digits.format(done);
  $("percentTasks").textContent=digits.format(percent)+"٪";
  $("monthProgress").style.width=percent+"%";
- $("reportDetails").innerHTML=html||'<div class="empty">در این ماه هنوز کاری ثبت نشده است.</div>';
+ $("reportDetails").innerHTML=html||
+ '<div class="empty">در این ماه هنوز کاری ثبت نشده است.</div>';
 }
+
 $("goalForm").addEventListener("submit",e=>{
  e.preventDefault();
  const name=$("goalName").value.trim();
@@ -383,18 +396,24 @@ $("goalForm").addEventListener("submit",e=>{
  const saved=Number($("goalSaved").value)||0;
  if(!name||target<=0||saved<0)return;
  data.goals.push({id:Date.now(),name,target,saved});
- $("goalForm").reset();$("goalSaved").value=0;
+ $("goalForm").reset();
+ $("goalSaved").value=0;
  saveData();renderGoals();
 });
-function money(n){return new Intl.NumberFormat("fa-IR").format(n)+" تومان"}
+
+function money(n){
+ return new Intl.NumberFormat("fa-IR").format(n)+" تومان";
+}
 function renderGoals(){
  $("goalList").innerHTML="";
  if(!data.goals.length){
-  $("goalList").innerHTML='<div class="empty">هنوز هدف مالی ثبت نکرده‌ای.</div>';return;
+  $("goalList").innerHTML='<div class="empty">هنوز هدف مالی ثبت نکرده‌ای.</div>';
+  return;
  }
  data.goals.forEach(goal=>{
   const percent=Math.min(100,Math.round(goal.saved/goal.target*100));
-  const div=document.createElement("div");div.className="goal";
+  const div=document.createElement("div");
+  div.className="goal";
   div.innerHTML=`
    <div class="goal-top">
     <span class="goal-name">${safeText(goal.name)}</span>
@@ -409,19 +428,23 @@ function renderGoals(){
   const buttons=div.querySelectorAll("button");
   buttons[0].onclick=()=>{
    if(confirm("این هدف حذف شود؟")){
-    data.goals=data.goals.filter(g=>g.id!==goal.id);saveData();renderGoals();
+    data.goals=data.goals.filter(g=>g.id!==goal.id);
+    saveData();renderGoals();
    }
   };
   buttons[1].onclick=()=>{
    const value=prompt("مبلغ جدید پس‌انداز (تومان):",goal.saved);
    if(value===null)return;
    const n=Number(value);
-   if(!Number.isFinite(n)||n<0){alert("مبلغ واردشده معتبر نیست.");return}
+   if(!Number.isFinite(n)||n<0){
+    alert("مبلغ واردشده معتبر نیست.");return;
+   }
    goal.saved=n;saveData();renderGoals();
   };
   $("goalList").appendChild(div);
  });
 }
+
 function applySettings(){
  const s=data.settings;
  document.documentElement.style.setProperty("--bg",s.bg);
@@ -429,9 +452,12 @@ function applySettings(){
  document.documentElement.style.setProperty("--green2",s.main);
  document.documentElement.style.setProperty("--text",s.text);
  document.documentElement.style.setProperty("--font",s.font+"px");
- $("bgColor").value=s.bg;$("mainColor").value=s.main;
- $("textColor").value=s.text;$("fontSize").value=s.font;
+ $("bgColor").value=s.bg;
+ $("mainColor").value=s.main;
+ $("textColor").value=s.text;
+ $("fontSize").value=s.font;
 }
+
 ["bgColor","mainColor","textColor","fontSize"].forEach(id=>{
  $(id).addEventListener("input",()=>{
   data.settings={
@@ -443,6 +469,7 @@ function applySettings(){
   applySettings();saveData();
  });
 });
+
 function resetSettings(){
  data.settings={bg:"#f3f0e5",main:"#254b40",text:"#263b32",font:16};
  applySettings();saveData();
@@ -451,7 +478,8 @@ function backupData(){
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob);
  const a=document.createElement("a");
- a.href=url;a.download="reza-planner-backup.json";a.click();
+ a.href=url;a.download="reza-planner-backup.json";
+ a.click();
  URL.revokeObjectURL(url);
 }
 function restoreData(){
@@ -461,14 +489,16 @@ function restoreData(){
  reader.onload=()=>{
   try{
    const restored=JSON.parse(reader.result);
-   if(!restored||typeof restored!=="object"||!restored.tasks||!Array.isArray(restored.goals))throw Error();
+   if(!restored||typeof restored!=="object"||
+      !restored.tasks||!Array.isArray(restored.goals))throw Error();
    if(!confirm("اطلاعات فعلی با اطلاعات فایل جایگزین شود؟"))return;
    data={
     tasks:restored.tasks,
     goals:restored.goals,
     settings:{...data.settings,...(restored.settings||{})}
    };
-   saveData();applySettings();renderAll();alert("بازیابی اطلاعات انجام شد.");
+   saveData();applySettings();renderAll();
+   alert("بازیابی اطلاعات انجام شد.");
   }catch(e){alert("فایل انتخاب‌شده معتبر نیست.")}
  };
  reader.readAsText(file);
@@ -476,10 +506,20 @@ function restoreData(){
 function renderAll(){
  renderCalendar();renderTasks();renderReport();renderGoals();
 }
+
 loadData();
 applySettings();
 $("todayText").textContent="امروز: "+persianLong.format(today);
 renderAll();
+
+/* ثبت سرویس‌ورکر برای نصب و اجرای آفلاین */
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("./sw.js")
+   .then(()=>console.log("Service Worker فعال شد"))
+   .catch(error=>console.log("خطای Service Worker:",error));
+ });
+}
 </script>
 </body>
 </html>
