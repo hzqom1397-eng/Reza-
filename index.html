@@ -1,523 +1,542 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#254b40">
-<meta name="description" content="پلنر شخصی رضا">
+<meta name="description" content="پلنر شخصی و مدیریت اهداف">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="پلنر رضا">
 <link rel="manifest" href="./manifest.webmanifest">
-<title>پلنر شخصی رضا</title>
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>پلنر شخصی</title>
 
 <style>
 :root{
- --bg:#f3f0e5;--card:#fffdf6;--green:#254b40;
- --green2:#376b59;--text:#263b32;--muted:#78847c;
- --line:#e5e1d5;--danger:#b94b45;--font:16px;
+ --bg:#f3f0e5;
+ --card:#fffdf6;
+ --green:#254b40;
+ --green2:#386b59;
+ --text:#26352e;
+ --muted:#7b857e;
+ --border:#e4e1d5;
+ --accent:#d4ad62;
+ --font:16px;
 }
 *{box-sizing:border-box}
 body{
  margin:0;background:var(--bg);color:var(--text);
  font-family:Tahoma,Arial,sans-serif;font-size:var(--font);
- padding:0 0 35px;
 }
 header{
- background:var(--green);color:white;padding:23px 18px 20px;
+ background:var(--green);color:white;padding:22px 16px 18px;
  border-radius:0 0 22px 22px;
 }
-header h1{font-size:23px;margin:0 0 8px}
-header p{font-size:13px;margin:0;color:#e0e9e3}
-.container{max-width:650px;margin:auto;padding:15px}
-.nav{display:flex;gap:7px;overflow-x:auto;margin:14px 0}
-.nav button{white-space:nowrap;flex:1}
-button{
- border:0;border-radius:10px;padding:11px 13px;
- background:var(--green);color:white;font:inherit;
- cursor:pointer;font-size:14px;
+header h1{margin:0 0 8px;font-size:23px}
+header p{margin:0;color:#d8e5dd;font-size:13px}
+.container{max-width:720px;margin:auto;padding:14px}
+.nav{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:7px;margin:14px 0;
 }
-button.secondary{background:#e6ece7;color:var(--green)}
-button.danger{background:#fae9e7;color:var(--danger)}
-button.small{padding:7px 10px;font-size:12px}
+.nav button{
+ border:0;border-radius:12px;padding:12px 4px;
+ background:#e3e6dc;color:var(--green);
+ font-family:inherit;font-size:12px;font-weight:bold;
+}
+.nav button.active{background:var(--green);color:white}
 .card{
- background:var(--card);border:1px solid var(--line);
- border-radius:16px;padding:16px;margin:12px 0;
- box-shadow:0 3px 12px #20352b08;
+ background:var(--card);border:1px solid var(--border);
+ border-radius:17px;padding:16px;margin-bottom:13px;
+ box-shadow:0 3px 12px #243c3010;
 }
-h2{font-size:17px;margin:0 0 14px}
+h2{font-size:17px;margin:0 0 14px;color:var(--green)}
 h3{font-size:14px;margin:12px 0}
-.muted{color:var(--muted);font-size:12px}
 input,textarea,select{
- width:100%;padding:12px;border:1px solid var(--line);
- border-radius:10px;background:white;color:var(--text);
- font:inherit;font-size:14px;margin:5px 0 10px;
+ width:100%;padding:12px;border:1px solid var(--border);
+ border-radius:10px;background:white;font-family:inherit;
+ font-size:14px;color:var(--text);margin:5px 0;
 }
-input[type=color]{height:43px;padding:4px}
-input[type=range]{padding:0}
+textarea{min-height:75px;resize:vertical}
+button{
+ cursor:pointer;font-family:inherit;
+}
+.btn{
+ border:0;background:var(--green);color:white;
+ padding:11px 15px;border-radius:10px;font-size:13px;
+}
+.btn.light{background:#e7e9df;color:var(--green)}
+.btn.gold{background:var(--accent);color:#352b18}
+.btn.danger{background:#a94444;color:white}
+.btn.small{padding:7px 10px;font-size:12px}
 .row{display:flex;gap:8px;align-items:center}
-.row>*{min-width:0}
-.row input{flex:1}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:#edf2ed;border-radius:12px;padding:12px 7px;text-align:center}
-.stat strong{display:block;font-size:21px;color:var(--green)}
-.stat span{font-size:11px;color:var(--muted)}
-.calendar-head{
+.row>*{flex:1;min-width:0}
+.task{
+ display:flex;align-items:center;gap:10px;
+ padding:12px 3px;border-bottom:1px solid var(--border);
+}
+.task:last-child{border:0}
+.task input{width:19px;height:19px;margin:0;flex:none}
+.task span{flex:1;font-size:14px;overflow-wrap:anywhere}
+.task.done span{text-decoration:line-through;color:var(--muted)}
+.task button{border:0;background:none;color:#a94444;font-size:18px}
+.datebox{
  display:flex;align-items:center;justify-content:space-between;
  gap:8px;margin-bottom:12px;
 }
-.calendar-head strong{font-size:15px}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.weekday{text-align:center;font-size:11px;color:var(--muted);padding:6px 0}
-.day{
- min-height:42px;border-radius:9px;background:#f2f1e9;
- color:var(--text);padding:7px 2px;font-size:13px;position:relative;
+.datebox button{border:0;background:#e7e9df;color:var(--green);
+ padding:9px 13px;border-radius:9px}
+.datebox strong{font-size:14px;text-align:center}
+.progress{
+ height:11px;background:#e5e5dc;border-radius:20px;overflow:hidden;
+ margin:10px 0;
 }
-.day.selected{background:var(--green);color:white}
-.day.today{outline:2px solid var(--green2)}
-.day.has-task:after{
- content:"";position:absolute;bottom:4px;left:50%;
- width:5px;height:5px;border-radius:50%;background:#c28b42;
+.progress div{height:100%;background:var(--green2);width:0%;transition:.2s}
+.statgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{
+ background:#edf0e8;border-radius:13px;padding:14px;text-align:center;
 }
-.day.selected.has-task:after{background:white}
-.task{
- display:flex;align-items:center;gap:9px;
- padding:11px 0;border-bottom:1px solid var(--line);
+.stat strong{display:block;color:var(--green);font-size:23px;margin-bottom:5px}
+.stat small{color:var(--muted);font-size:12px}
+.goal{
+ padding:12px 0;border-bottom:1px solid var(--border);
 }
-.task:last-child{border-bottom:0}
-.task input{width:19px;height:19px;margin:0;accent-color:var(--green)}
-.task .task-title{flex:1;font-size:14px;overflow-wrap:anywhere}
-.task.done .task-title{text-decoration:line-through;color:var(--muted)}
-.empty{text-align:center;color:var(--muted);padding:20px 5px;font-size:13px}
-.progress{height:9px;background:#e7e8df;border-radius:20px;overflow:hidden;margin:9px 0}
-.progress div{height:100%;background:var(--green2);border-radius:20px}
-.goal{border:1px solid var(--line);padding:12px;border-radius:12px;margin:9px 0}
-.goal-top{display:flex;justify-content:space-between;gap:8px}
-.goal-name{font-weight:bold;font-size:14px}
-.goal-numbers{font-size:12px;color:var(--muted);margin-top:8px}
+.goal:last-child{border:0}
+.goaltop{display:flex;justify-content:space-between;gap:8px}
+.goaltop strong{font-size:14px}
+.goaltop button{border:0;background:none;color:#a94444}
+.hidden{display:none!important}
+.muted{font-size:12px;color:var(--muted)}
 .section{display:none}
 .section.active{display:block}
-label{font-size:13px;color:var(--muted)}
-footer{text-align:center;font-size:11px;color:var(--muted);padding:15px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+.colorrow{display:flex;gap:12px;align-items:center;margin:10px 0}
+.colorrow input{width:55px;height:40px;padding:2px}
+.monthitem{padding:10px 0;border-bottom:1px solid var(--border)}
+@media(min-width:600px){
+ .container{padding:22px}
+ .nav button{font-size:14px}
+}
 </style>
 </head>
 
 <body>
 <header>
- <h1>پلنر شخصی رضا</h1>
- <p id="todayText">برنامه‌ریزی روزانه و مدیریت اهداف</p>
+ <h1>پلنر شخصی</h1>
+ <p>برنامه‌ریزی، پیگیری اهداف و مدیریت روزانه</p>
 </header>
 
 <div class="container">
  <div class="nav">
-  <button onclick="showSection('daily',this)">کارهای روزانه</button>
-  <button class="secondary" onclick="showSection('report',this)">گزارش ماهانه</button>
-  <button class="secondary" onclick="showSection('goals',this)">اهداف مالی</button>
-  <button class="secondary" onclick="showSection('settings',this)">تنظیمات</button>
+  <button class="active" data-tab="daily">کارهای روزانه</button>
+  <button data-tab="monthly">عملکرد ماهانه</button>
+  <button data-tab="goals">اهداف مالی</button>
+  <button data-tab="settings">تنظیمات</button>
  </div>
 
  <section id="daily" class="section active">
   <div class="card">
-   <div class="calendar-head">
-    <button class="small" onclick="changeMonth(-1)">ماه قبل</button>
-    <strong id="monthTitle"></strong>
-    <button class="small" onclick="changeMonth(1)">ماه بعد</button>
+   <div class="datebox">
+    <button id="prevDay">روز قبل</button>
+    <strong id="dateTitle"></strong>
+    <button id="nextDay">روز بعد</button>
    </div>
-   <div class="calendar" id="calendar"></div>
-   <p class="muted" id="selectedDateText"></p>
+   <div class="muted" id="todayInfo"></div>
   </div>
 
   <div class="card">
-   <h2>کارهای روزانه</h2>
-   <form id="taskForm" class="row">
-    <input id="taskInput" placeholder="عنوان کار جدید..." required>
-    <button type="submit">افزودن</button>
-   </form>
+   <h2>افزودن کار جدید</h2>
+   <input id="taskInput" placeholder="عنوان کار را بنویس...">
+   <textarea id="taskNote" placeholder="توضیحات (اختیاری)"></textarea>
+   <button class="btn" id="addTask">افزودن به برنامه</button>
+  </div>
+
+  <div class="card">
+   <h2>برنامه امروز</h2>
+   <div class="row">
+    <span class="muted" id="taskCount">۰ کار</span>
+    <span class="muted" id="taskPercent" style="text-align:left">۰٪ انجام شده</span>
+   </div>
+   <div class="progress"><div id="dailyProgress"></div></div>
    <div id="taskList"></div>
-   <div class="muted" id="dailyProgress"></div>
+   <p class="muted" id="emptyTasks">هنوز کاری ثبت نشده است.</p>
+  </div>
+
+  <div class="card">
+   <h2>یادداشت روزانه</h2>
+   <textarea id="dailyNote" placeholder="یادداشت‌ها و نکات امروز..."></textarea>
+   <button class="btn light" id="saveNote">ذخیره یادداشت</button>
   </div>
  </section>
 
- <section id="report" class="section">
+ <section id="monthly" class="section">
   <div class="card">
    <h2>گزارش عملکرد ماهانه</h2>
-   <div class="calendar-head">
-    <button class="small" onclick="changeMonth(-1)">ماه قبل</button>
-    <strong id="reportMonth"></strong>
-    <button class="small" onclick="changeMonth(1)">ماه بعد</button>
+   <div class="row">
+    <button class="btn light" id="prevMonth">ماه قبل</button>
+    <strong id="monthTitle" style="text-align:center"></strong>
+    <button class="btn light" id="nextMonth">ماه بعد</button>
    </div>
-   <div class="stats">
-    <div class="stat"><strong id="totalTasks">۰</strong><span>کل کارها</span></div>
-    <div class="stat"><strong id="doneTasks">۰</strong><span>انجام‌شده</span></div>
-    <div class="stat"><strong id="percentTasks">۰٪</strong><span>درصد تکمیل</span></div>
+  </div>
+  <div class="card">
+   <div class="statgrid">
+    <div class="stat"><strong id="totalTasks">۰</strong><small>کل کارها</small></div>
+    <div class="stat"><strong id="doneTasks">۰</strong><small>کارهای انجام‌شده</small></div>
+    <div class="stat"><strong id="remainingTasks">۰</strong><small>کارهای باقی‌مانده</small></div>
+    <div class="stat"><strong id="monthPercent">۰٪</strong><small>درصد عملکرد</small></div>
    </div>
-   <div class="progress"><div id="monthProgress" style="width:0%"></div></div>
-   <div id="reportDetails"></div>
+   <div class="progress"><div id="monthProgress"></div></div>
+  </div>
+  <div class="card">
+   <h2>گزارش روزها</h2>
+   <div id="monthDays"></div>
   </div>
  </section>
 
  <section id="goals" class="section">
   <div class="card">
    <h2>افزودن هدف مالی</h2>
-   <form id="goalForm">
-    <label>نام هدف</label>
-    <input id="goalName" placeholder="مثلاً خرید خودرو" required>
-    <label>مبلغ موردنیاز (تومان)</label>
-    <input id="goalTarget" type="number" min="1" placeholder="مبلغ هدف" required>
-    <label>مبلغ پس‌اندازشده (تومان)</label>
-    <input id="goalSaved" type="number" min="0" value="0">
-    <button type="submit">ثبت هدف</button>
-   </form>
+   <input id="goalName" placeholder="نام هدف">
+   <input id="goalTarget" type="number" min="0" placeholder="مبلغ موردنیاز">
+   <input id="goalCurrent" type="number" min="0" placeholder="مبلغ پس‌اندازشده">
+   <button class="btn" id="addGoal">ثبت هدف</button>
   </div>
   <div class="card">
    <h2>اهداف من</h2>
    <div id="goalList"></div>
+   <p class="muted" id="emptyGoals">هنوز هدفی ثبت نکرده‌اید.</p>
   </div>
  </section>
 
  <section id="settings" class="section">
   <div class="card">
-   <h2>تنظیم ظاهر پلنر</h2>
-   <label>رنگ پس‌زمینه</label>
-   <input type="color" id="bgColor">
-   <label>رنگ اصلی برنامه</label>
-   <input type="color" id="mainColor">
-   <label>رنگ نوشته‌ها</label>
-   <input type="color" id="textColor">
-   <label>اندازه نوشته‌ها</label>
-   <input type="range" id="fontSize" min="13" max="21" value="16">
-   <p class="muted">تغییرات به‌صورت خودکار ذخیره می‌شوند.</p>
-   <button class="secondary" onclick="resetSettings()">بازگشت به تنظیمات اولیه</button>
+   <h2>تنظیمات ظاهری</h2>
+   <div class="colorrow">
+    <label>رنگ پس‌زمینه</label>
+    <input type="color" id="bgColor" value="#f3f0e5">
+   </div>
+   <div class="colorrow">
+    <label>رنگ نوشته</label>
+    <input type="color" id="textColor" value="#26352e">
+   </div>
+   <div class="colorrow">
+    <label>رنگ اصلی</label>
+    <input type="color" id="greenColor" value="#254b40">
+   </div>
+   <label>اندازه نوشته</label>
+   <input type="range" id="fontSize" min="13" max="22" value="16">
+   <button class="btn light" id="resetStyle">بازگشت به ظاهر اولیه</button>
   </div>
+
   <div class="card">
-   <h2>پشتیبان‌گیری از اطلاعات</h2>
-   <p class="muted">برای نگهداری اطلاعات، یک نسخه پشتیبان دانلود کن.</p>
-   <button onclick="backupData()">دریافت فایل پشتیبان</button>
+   <h2>پشتیبان‌گیری اطلاعات</h2>
+   <p class="muted">برای نگهداری اطلاعات، هر چند وقت یک‌بار نسخه پشتیبان بگیر.</p>
+   <button class="btn" id="backup">دریافت فایل پشتیبان</button>
+   <hr style="border:0;border-top:1px solid var(--border);margin:17px 0">
    <h3>بازیابی اطلاعات</h3>
    <input type="file" id="restoreFile" accept=".json,application/json">
-   <button class="secondary" onclick="restoreData()">بازیابی فایل</button>
+   <button class="btn light" id="restore">بازیابی نسخه پشتیبان</button>
+  </div>
+
+  <div class="card">
+   <h2>اطلاعات برنامه</h2>
+   <p class="muted">اطلاعات این نسخه روی حافظه مرورگر همین دستگاه ذخیره می‌شود.</p>
+   <p class="muted">برای جلوگیری از ازدست‌رفتن اطلاعات، فایل پشتیبان تهیه کن.</p>
   </div>
  </section>
 </div>
 
-<footer>پلنر شخصی رضا | اطلاعات روی همین گوشی ذخیره می‌شود</footer>
+<footer>پلنر شخصی | مدیریت بهتر زمان و اهداف</footer>
 
 <script>
+const KEY="rezaPlannerDataV3";
+let data={days:{},goals:[],settings:{}};
+let selected=new Date();
+let monthDate=new Date();
+
 const $=id=>document.getElementById(id);
-const STORAGE_KEY="reza_planner_v1";
 
-let data={
- tasks:{},
- goals:[],
- settings:{bg:"#f3f0e5",main:"#254b40",text:"#263b32",font:16}
-};
-
-function loadData(){
+function load(){
  try{
-  const saved=localStorage.getItem(STORAGE_KEY);
-  if(saved){
-   const parsed=JSON.parse(saved);
-   data={...data,...parsed};
-   data.settings={...data.settings,...(parsed.settings||{})};
-  }
- }catch(e){console.log(e)}
-}
-function saveData(){
- try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}
- catch(e){alert("ذخیره اطلاعات انجام نشد.")}
+  const saved=localStorage.getItem(KEY);
+  if(saved)data=JSON.parse(saved);
+ }catch(e){alert("خواندن اطلاعات ذخیره‌شده با مشکل روبه‌رو شد.");}
+ if(!data.days)data.days={};
+ if(!Array.isArray(data.goals))data.goals=[];
+ if(!data.settings)data.settings={};
+ applySettings();
 }
 
-const persianFmt=new Intl.DateTimeFormat("fa-IR-u-ca-persian-nu-latn",{
- year:"numeric",month:"numeric",day:"numeric"
-});
-const persianLong=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
- year:"numeric",month:"long",day:"numeric"
-});
-const persianMonth=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
- year:"numeric",month:"long"
-});
-const digits=new Intl.NumberFormat("fa-IR");
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(data));
+}
 
-function pParts(date){
- const out={};
- persianFmt.formatToParts(date).forEach(x=>{
-  if(x.type!=="literal")out[x.type]=Number(x.value);
+function dateKey(d){
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+
+function faDate(d,options={}){
+ return new Intl.DateTimeFormat("fa-IR-u-ca-persian",options).format(d);
+}
+
+function dayData(d){
+ const key=dateKey(d);
+ if(!data.days[key])data.days[key]={tasks:[],note:""};
+ return data.days[key];
+}
+
+function renderDate(){
+ $("dateTitle").textContent=faDate(selected,{
+  weekday:"long",day:"numeric",month:"long",year:"numeric"
  });
- return out;
-}
-function keyOf(date){
- return date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0")+"-"+String(date.getDate()).padStart(2,"0");
-}
-function dateFromKey(key){
- const [y,m,d]=key.split("-").map(Number);
- return new Date(y,m-1,d,12);
-}
-function monthDates(year,month){
- const start=new Date(year+621,0,1,12);
- const end=new Date(year+623,0,1,12);
- const result=[];
- for(let d=new Date(start);d<end;d.setDate(d.getDate()+1)){
-  const p=pParts(d);
-  if(p.year===year&&p.month===month)result.push(new Date(d));
- }
- return result;
-}
-
-let today=new Date();
-let todayParts=pParts(today);
-let viewYear=todayParts.year;
-let viewMonth=todayParts.month;
-let selectedKey=keyOf(today);
-
-function monthName(y,m){
- const dates=monthDates(y,m);
- return dates.length?persianMonth.format(dates[0]):digits.format(y);
-}
-function changeMonth(amount){
- viewMonth+=amount;
- if(viewMonth>12){viewMonth=1;viewYear++}
- if(viewMonth<1){viewMonth=12;viewYear--}
- const dates=monthDates(viewYear,viewMonth);
- if(dates.length)selectedKey=keyOf(dates[0]);
- renderAll();
-}
-function showSection(id,button){
- document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
- $(id).classList.add("active");
- document.querySelectorAll(".nav button").forEach(b=>b.classList.add("secondary"));
- if(button)button.classList.remove("secondary");
- if(id==="report")renderReport();
- if(id==="goals")renderGoals();
-}
-function safeText(s){
- return String(s).replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
-}
-
-function renderCalendar(){
- const dates=monthDates(viewYear,viewMonth);
- $("monthTitle").textContent=monthName(viewYear,viewMonth);
- $("calendar").innerHTML="";
- ["ش","ی","د","س","چ","پ","ج"].forEach(w=>{
-  const el=document.createElement("div");
-  el.className="weekday";el.textContent=w;
-  $("calendar").appendChild(el);
- });
- if(!dates.length)return;
- const offset=(dates[0].getDay()+1)%7;
- for(let i=0;i<offset;i++){
-  $("calendar").appendChild(document.createElement("div"));
- }
- dates.forEach(date=>{
-  const key=keyOf(date),p=pParts(date);
-  const tasks=data.tasks[key]||[];
-  const el=document.createElement("button");
-  el.className="day";
-  if(key===selectedKey)el.classList.add("selected");
-  if(key===keyOf(today))el.classList.add("today");
-  if(tasks.length)el.classList.add("has-task");
-  el.textContent=digits.format(p.day);
-  el.onclick=()=>{selectedKey=key;renderAll()};
-  $("calendar").appendChild(el);
- });
+ $("todayInfo").textContent="تاریخ میلادی: "+dateKey(selected);
+ renderTasks();
+ $("dailyNote").value=dayData(selected).note||"";
 }
 
 function renderTasks(){
- const date=dateFromKey(selectedKey);
- $("selectedDateText").textContent="تاریخ انتخاب‌شده: "+persianLong.format(date);
- const tasks=data.tasks[selectedKey]||[];
- $("taskList").innerHTML="";
- if(!tasks.length){
-  $("taskList").innerHTML='<div class="empty">برای این روز هنوز کاری ثبت نشده است.</div>';
- }else{
-  tasks.forEach((task,index)=>{
-   const div=document.createElement("div");
-   div.className="task"+(task.done?" done":"");
-   div.innerHTML=`
-    <input type="checkbox" ${task.done?"checked":""} aria-label="انجام شد">
-    <span class="task-title">${safeText(task.title)}</span>
-    <button class="danger small">حذف</button>`;
-   div.querySelector("input").onchange=e=>{
-    data.tasks[selectedKey][index].done=e.target.checked;
-    saveData();renderAll();
-   };
-   div.querySelector("button").onclick=()=>{
-    data.tasks[selectedKey].splice(index,1);
-    saveData();renderAll();
-   };
-   $("taskList").appendChild(div);
+ const d=dayData(selected);
+ const list=$("taskList");
+ list.innerHTML="";
+ d.tasks.forEach((task,index)=>{
+  const item=document.createElement("div");
+  item.className="task"+(task.done?" done":"");
+  const check=document.createElement("input");
+  check.type="checkbox";
+  check.checked=!!task.done;
+  check.addEventListener("change",()=>{
+   task.done=check.checked;save();renderTasks();renderMonth();
   });
- }
- const done=tasks.filter(t=>t.done).length;
- $("dailyProgress").textContent=
-  `${digits.format(done)} از ${digits.format(tasks.length)} کار انجام شده است.`;
+  const span=document.createElement("span");
+  span.textContent=task.title+(task.note?" — "+task.note:"");
+  const del=document.createElement("button");
+  del.textContent="×";
+  del.title="حذف کار";
+  del.addEventListener("click",()=>{
+   if(confirm("این کار حذف شود؟")){
+    d.tasks.splice(index,1);save();renderTasks();renderMonth();
+   }
+  });
+  item.append(check,span,del);
+  list.appendChild(item);
+ });
+ const total=d.tasks.length;
+ const done=d.tasks.filter(t=>t.done).length;
+ const percent=total?Math.round(done/total*100):0;
+ $("taskCount").textContent=faNumber(total)+" کار";
+ $("taskPercent").textContent=faNumber(percent)+"٪ انجام شده";
+ $("dailyProgress").style.width=percent+"%";
+ $("emptyTasks").classList.toggle("hidden",total>0);
 }
 
-$("taskForm").addEventListener("submit",e=>{
- e.preventDefault();
+function faNumber(n){
+ return new Intl.NumberFormat("fa-IR").format(n);
+}
+
+$("addTask").onclick=()=>{
  const title=$("taskInput").value.trim();
- if(!title)return;
- if(!data.tasks[selectedKey])data.tasks[selectedKey]=[];
- data.tasks[selectedKey].push({title,done:false});
+ if(!title){alert("عنوان کار را وارد کن.");return;}
+ dayData(selected).tasks.push({
+  title,note:$("taskNote").value.trim(),done:false
+ });
  $("taskInput").value="";
- saveData();renderAll();
+ $("taskNote").value="";
+ save();renderTasks();renderMonth();
+};
+
+$("prevDay").onclick=()=>{
+ selected.setDate(selected.getDate()-1);renderDate();
+};
+$("nextDay").onclick=()=>{
+ selected.setDate(selected.getDate()+1);renderDate();
+};
+$("saveNote").onclick=()=>{
+ dayData(selected).note=$("dailyNote").value;
+ save();alert("یادداشت ذخیره شد.");
+};
+
+document.querySelectorAll(".nav button").forEach(btn=>{
+ btn.onclick=()=>{
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  btn.classList.add("active");
+  $(btn.dataset.tab).classList.add("active");
+  if(btn.dataset.tab==="monthly")renderMonth();
+  if(btn.dataset.tab==="goals")renderGoals();
+ };
 });
 
-function renderReport(){
- $("reportMonth").textContent=monthName(viewYear,viewMonth);
- const dates=monthDates(viewYear,viewMonth);
- let total=0,done=0,html="";
- dates.forEach(date=>{
-  const key=keyOf(date),tasks=data.tasks[key]||[];
-  if(tasks.length){
-   const finished=tasks.filter(t=>t.done).length;
-   total+=tasks.length;done+=finished;
-   html+=`<div class="task">
-   <span class="task-title">${safeText(persianLong.format(date))}</span>
-   <span class="muted">${digits.format(finished)} از ${digits.format(tasks.length)}</span>
-   </div>`;
-  }
+function monthKey(d){
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+}
+
+function renderMonth(){
+ $("monthTitle").textContent=faDate(monthDate,{month:"long",year:"numeric"});
+ const prefix=monthKey(monthDate);
+ let total=0,done=0;
+ const days=[];
+ Object.keys(data.days).sort().forEach(key=>{
+  if(!key.startsWith(prefix))return;
+  const day=data.days[key];
+  const count=day.tasks.length;
+  const completed=day.tasks.filter(t=>t.done).length;
+  total+=count;done+=completed;
+  days.push({key,count,completed});
  });
  const percent=total?Math.round(done/total*100):0;
- $("totalTasks").textContent=digits.format(total);
- $("doneTasks").textContent=digits.format(done);
- $("percentTasks").textContent=digits.format(percent)+"٪";
+ $("totalTasks").textContent=faNumber(total);
+ $("doneTasks").textContent=faNumber(done);
+ $("remainingTasks").textContent=faNumber(total-done);
+ $("monthPercent").textContent=faNumber(percent)+"٪";
  $("monthProgress").style.width=percent+"%";
- $("reportDetails").innerHTML=html||
- '<div class="empty">در این ماه هنوز کاری ثبت نشده است.</div>';
-}
-
-$("goalForm").addEventListener("submit",e=>{
- e.preventDefault();
- const name=$("goalName").value.trim();
- const target=Number($("goalTarget").value);
- const saved=Number($("goalSaved").value)||0;
- if(!name||target<=0||saved<0)return;
- data.goals.push({id:Date.now(),name,target,saved});
- $("goalForm").reset();
- $("goalSaved").value=0;
- saveData();renderGoals();
-});
-
-function money(n){
- return new Intl.NumberFormat("fa-IR").format(n)+" تومان";
-}
-function renderGoals(){
- $("goalList").innerHTML="";
- if(!data.goals.length){
-  $("goalList").innerHTML='<div class="empty">هنوز هدف مالی ثبت نکرده‌ای.</div>';
+ const box=$("monthDays");
+ box.innerHTML="";
+ if(!days.length){
+  box.textContent="برای این ماه هنوز گزارشی ثبت نشده است.";
   return;
  }
- data.goals.forEach(goal=>{
-  const percent=Math.min(100,Math.round(goal.saved/goal.target*100));
+ days.reverse().forEach(day=>{
+  const div=document.createElement("div");
+  div.className="monthitem";
+  const date=new Date(day.key+"T12:00:00");
+  const p=day.count?Math.round(day.completed/day.count*100):0;
+  div.textContent=faDate(date,{day:"numeric",month:"long"})+
+   " — "+faNumber(day.completed)+" از "+faNumber(day.count)+
+   " کار انجام شده ("+faNumber(p)+"٪)";
+  box.appendChild(div);
+ });
+}
+
+$("prevMonth").onclick=()=>{
+ monthDate.setMonth(monthDate.getMonth()-1);renderMonth();
+};
+$("nextMonth").onclick=()=>{
+ monthDate.setMonth(monthDate.getMonth()+1);renderMonth();
+};
+
+$("addGoal").onclick=()=>{
+ const name=$("goalName").value.trim();
+ const target=Number($("goalTarget").value);
+ const current=Number($("goalCurrent").value)||0;
+ if(!name||target<=0||current<0){alert("نام هدف و مبلغ معتبر وارد کن.");return;}
+ data.goals.push({name,target,current});
+ $("goalName").value="";
+ $("goalTarget").value="";
+ $("goalCurrent").value="";
+ save();renderGoals();
+};
+
+function renderGoals(){
+ const box=$("goalList");
+ box.innerHTML="";
+ $("emptyGoals").classList.toggle("hidden",data.goals.length>0);
+ data.goals.forEach((g,i)=>{
   const div=document.createElement("div");
   div.className="goal";
-  div.innerHTML=`
-   <div class="goal-top">
-    <span class="goal-name">${safeText(goal.name)}</span>
-    <button class="danger small">حذف</button>
-   </div>
-   <div class="goal-numbers">${money(goal.saved)} از ${money(goal.target)}</div>
-   <div class="progress"><div style="width:${percent}%"></div></div>
-   <div class="goal-top">
-    <span class="muted">${digits.format(percent)}٪ پیشرفت</span>
-    <button class="secondary small">ویرایش پس‌انداز</button>
-   </div>`;
-  const buttons=div.querySelectorAll("button");
-  buttons[0].onclick=()=>{
+  const top=document.createElement("div");
+  top.className="goaltop";
+  const name=document.createElement("strong");
+  name.textContent=g.name;
+  const del=document.createElement("button");
+  del.textContent="حذف";
+  del.onclick=()=>{
    if(confirm("این هدف حذف شود؟")){
-    data.goals=data.goals.filter(g=>g.id!==goal.id);
-    saveData();renderGoals();
+    data.goals.splice(i,1);save();renderGoals();
    }
   };
-  buttons[1].onclick=()=>{
-   const value=prompt("مبلغ جدید پس‌انداز (تومان):",goal.saved);
+  top.append(name,del);
+  const info=document.createElement("p");
+  info.className="muted";
+  info.textContent="پس‌انداز: "+faNumber(g.current)+" از "+faNumber(g.target);
+  const percent=Math.min(100,Math.round(g.current/g.target*100));
+  const progress=document.createElement("div");
+  progress.className="progress";
+  const fill=document.createElement("div");
+  fill.style.width=percent+"%";
+  progress.append(fill);
+  const edit=document.createElement("button");
+  edit.className="btn light small";
+  edit.textContent="به‌روزرسانی مبلغ";
+  edit.onclick=()=>{
+   const value=prompt("مبلغ فعلی پس‌انداز را وارد کن:",g.current);
    if(value===null)return;
    const n=Number(value);
-   if(!Number.isFinite(n)||n<0){
-    alert("مبلغ واردشده معتبر نیست.");return;
-   }
-   goal.saved=n;saveData();renderGoals();
+   if(!Number.isFinite(n)||n<0){alert("مبلغ معتبر نیست.");return;}
+   g.current=n;save();renderGoals();
   };
-  $("goalList").appendChild(div);
+  div.append(top,info,progress,edit);
+  box.append(div);
  });
 }
 
 function applySettings(){
  const s=data.settings;
- document.documentElement.style.setProperty("--bg",s.bg);
- document.documentElement.style.setProperty("--green",s.main);
- document.documentElement.style.setProperty("--green2",s.main);
- document.documentElement.style.setProperty("--text",s.text);
- document.documentElement.style.setProperty("--font",s.font+"px");
- $("bgColor").value=s.bg;
- $("mainColor").value=s.main;
- $("textColor").value=s.text;
- $("fontSize").value=s.font;
+ if(s.bg)document.documentElement.style.setProperty("--bg",s.bg);
+ if(s.text)document.documentElement.style.setProperty("--text",s.text);
+ if(s.green)document.documentElement.style.setProperty("--green",s.green);
+ if(s.font)document.documentElement.style.setProperty("--font",s.font+"px");
+ $("bgColor").value=s.bg||"#f3f0e5";
+ $("textColor").value=s.text||"#26352e";
+ $("greenColor").value=s.green||"#254b40";
+ $("fontSize").value=s.font||16;
 }
 
-["bgColor","mainColor","textColor","fontSize"].forEach(id=>{
- $(id).addEventListener("input",()=>{
-  data.settings={
-   bg:$("bgColor").value,
-   main:$("mainColor").value,
-   text:$("textColor").value,
-   font:Number($("fontSize").value)
-  };
-  applySettings();saveData();
- });
-});
-
-function resetSettings(){
- data.settings={bg:"#f3f0e5",main:"#254b40",text:"#263b32",font:16};
- applySettings();saveData();
+function updateSetting(key,value,css){
+ data.settings[key]=value;
+ document.documentElement.style.setProperty(css,value);
+ save();
 }
-function backupData(){
+
+$("bgColor").oninput=e=>updateSetting("bg",e.target.value,"--bg");
+$("textColor").oninput=e=>updateSetting("text",e.target.value,"--text");
+$("greenColor").oninput=e=>updateSetting("green",e.target.value,"--green");
+$("fontSize").oninput=e=>{
+ data.settings.font=e.target.value;
+ document.documentElement.style.setProperty("--font",e.target.value+"px");
+ save();
+};
+
+$("resetStyle").onclick=()=>{
+ data.settings={};save();applySettings();
+};
+
+$("backup").onclick=()=>{
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob);
  const a=document.createElement("a");
  a.href=url;a.download="reza-planner-backup.json";
- a.click();
- URL.revokeObjectURL(url);
-}
-function restoreData(){
+ a.click();URL.revokeObjectURL(url);
+};
+
+$("restore").onclick=()=>{
  const file=$("restoreFile").files[0];
- if(!file){alert("ابتدا فایل پشتیبان را انتخاب کن.");return}
+ if(!file){alert("ابتدا فایل پشتیبان را انتخاب کن.");return;}
  const reader=new FileReader();
  reader.onload=()=>{
   try{
    const restored=JSON.parse(reader.result);
-   if(!restored||typeof restored!=="object"||
-      !restored.tasks||!Array.isArray(restored.goals))throw Error();
-   if(!confirm("اطلاعات فعلی با اطلاعات فایل جایگزین شود؟"))return;
-   data={
-    tasks:restored.tasks,
-    goals:restored.goals,
-    settings:{...data.settings,...(restored.settings||{})}
-   };
-   saveData();applySettings();renderAll();
-   alert("بازیابی اطلاعات انجام شد.");
-  }catch(e){alert("فایل انتخاب‌شده معتبر نیست.")}
+   if(!restored||typeof restored!=="object"||!restored.days||!Array.isArray(restored.goals)){
+    throw new Error("ساختار فایل معتبر نیست");
+   }
+   if(!confirm("اطلاعات فعلی با اطلاعات فایل پشتیبان جایگزین شود؟"))return;
+   data=restored;save();applySettings();renderDate();renderMonth();renderGoals();
+   alert("بازیابی انجام شد.");
+  }catch(e){alert("فایل پشتیبان معتبر نیست یا با این نسخه سازگار نیست.");}
  };
  reader.readAsText(file);
-}
-function renderAll(){
- renderCalendar();renderTasks();renderReport();renderGoals();
-}
+};
 
-loadData();
-applySettings();
-$("todayText").textContent="امروز: "+persianLong.format(today);
-renderAll();
+load();
+renderDate();
+renderMonth();
+renderGoals();
 
-/* ثبت سرویس‌ورکر برای نصب و اجرای آفلاین */
 if("serviceWorker" in navigator){
  window.addEventListener("load",()=>{
   navigator.serviceWorker.register("./sw.js")
-   .then(()=>console.log("Service Worker فعال شد"))
-   .catch(error=>console.log("خطای Service Worker:",error));
+   .catch(error=>console.log("Service Worker:",error));
  });
 }
 </script>
