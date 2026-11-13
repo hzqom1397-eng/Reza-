@@ -3,83 +3,490 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#244c3e">
 <title>پلنر شخصی رضا</title>
 <style>
-* {
-  box-sizing: border-box;
+:root{
+--green:#244c3e;--cream:#f3efe3;--card:#fffdf7;
+--text:#263c32;--muted:#7d8178;--line:#e5e0d3;
+--font:16px;
 }
-body {
-  margin: 0;
-  font-family: Tahoma, sans-serif;
-  background: #f3efe3;
-  color: #263c32;
+*{box-sizing:border-box}
+body{
+margin:0;background:var(--cream);color:var(--text);
+font-family:Tahoma,sans-serif;font-size:var(--font);
 }
-header {
-  background: #244c3e;
-  color: #fff8e9;
-  padding: 25px 18px;
-  border-radius: 0 0 22px 22px;
+header{
+background:var(--green);color:#fff9e9;padding:23px 18px;
+border-radius:0 0 22px 22px;
 }
-header h1 {
-  margin: 0 0 10px;
-  font-size: 23px;
+header h1{font-size:23px;margin:0 0 8px}
+header p{font-size:13px;margin:0;color:#e4e9df}
+#today{font-size:13px;margin-top:15px}
+nav{
+display:flex;gap:7px;padding:12px;overflow-x:auto;
+position:sticky;top:0;background:var(--cream);z-index:5;
 }
-header p {
-  margin: 0;
-  color: #e3dfcc;
+nav button{
+white-space:nowrap;border:1px solid var(--line);
+border-radius:11px;background:var(--card);padding:11px 13px;
+color:var(--text);font:inherit;font-size:13px;
 }
-main {
-  padding: 18px;
+nav button.active{background:var(--green);color:white}
+main{max-width:750px;margin:auto;padding:8px 14px 35px}
+.page{display:none}.page.active{display:block}
+.card{
+background:var(--card);border:1px solid var(--line);
+border-radius:16px;padding:16px;margin-bottom:13px;
 }
-.card {
-  background: #fffdf6;
-  border: 1px solid #e4dfd0;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 15px;
+h2{font-size:17px;margin:0 0 14px}
+h3{font-size:14px;margin:0 0 10px}
+input,textarea,select{
+width:100%;padding:12px;border:1px solid var(--line);
+border-radius:10px;background:white;color:var(--text);
+font:inherit;font-size:14px;margin:5px 0 10px;
 }
-h2 {
-  font-size: 17px;
-  margin-top: 0;
+textarea{min-height:75px}
+button{font-family:inherit;cursor:pointer}
+.primary{
+background:var(--green);color:white;border:0;
+padding:12px 16px;border-radius:10px;font-size:14px;
 }
-.placeholder {
-  color: #777b70;
-  font-size: 14px;
-  line-height: 2;
+.secondary{
+background:#edf0e9;color:var(--green);border:0;
+padding:9px 12px;border-radius:9px;font-size:12px;
 }
+.danger{
+background:#fff0ed;color:#a33;border:0;
+padding:8px 10px;border-radius:8px;font-size:12px;
+}
+.muted{font-size:12px;color:var(--muted);line-height:2}
+.row{display:flex;gap:9px;align-items:center}
+.between{justify-content:space-between}
+.task{
+display:flex;align-items:center;gap:10px;
+padding:12px 0;border-bottom:1px solid var(--line);
+}
+.task:last-child{border:0}
+.task input{width:19px;height:19px;margin:0;accent-color:var(--green)}
+.task-name{flex:1;font-size:14px;overflow-wrap:anywhere}
+.task.done .task-name{text-decoration:line-through;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:#f0eee4;padding:14px;border-radius:12px}
+.stat strong{display:block;font-size:24px;color:var(--green);margin-bottom:5px}
+.progress{height:10px;background:#e8e4d8;border-radius:20px;overflow:hidden;margin:10px 0}
+.progress span{height:100%;display:block;background:var(--green)}
+.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.weekday{text-align:center;font-size:11px;color:var(--muted);padding:7px 0}
+.day{
+height:42px;border:1px solid var(--line);border-radius:8px;
+background:white;display:flex;justify-content:center;align-items:center;
+font-size:13px;position:relative;
+}
+.day.today{border:2px solid var(--green);font-weight:bold}
+.day.selected{background:var(--green);color:white}
+.day.has-tasks:after{
+content:"";position:absolute;bottom:4px;width:5px;height:5px;
+background:#b88b3d;border-radius:50%;
+}
+.day.selected.has-tasks:after{background:white}
+.goal{padding:12px 0;border-bottom:1px solid var(--line)}
+.goal:last-child{border:0}
+.empty{text-align:center;padding:15px;color:var(--muted);font-size:13px}
+label{font-size:13px}
+footer{text-align:center;font-size:11px;color:var(--muted);padding:15px}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>پلنر شخصی من</h1>
-  <p>برنامه‌ریزی، هدف‌گذاری و پیشرفت روزانه</p>
+<h1>پلنر شخصی رضا</h1>
+<p>برنامه‌ریزی، هدف‌گذاری و پیشرفت روزانه</p>
+<div id="today"></div>
 </header>
 
+<nav>
+<button class="active" onclick="showPage('home',this)">داشبورد</button>
+<button onclick="showPage('tasks',this)">کارهای روزانه</button>
+<button onclick="showPage('calendar',this)">تقویم شمسی</button>
+<button onclick="showPage('report',this)">گزارش ماهانه</button>
+<button onclick="showPage('goals',this)">اهداف مالی</button>
+<button onclick="showPage('settings',this)">تنظیمات</button>
+</nav>
+
 <main>
-  <section class="card">
-    <h2>داشبورد من</h2>
-    <p class="placeholder">
-      به پلنر شخصی خودت خوش آمدی.
-    </p>
-  </section>
 
-  <section class="card">
-    <h2>برنامه امروز</h2>
-    <p class="placeholder">
-      کارهای روزانه در این قسمت نمایش داده می‌شوند.
-    </p>
-  </section>
+<section id="home" class="page active">
+<div class="card">
+<h2>خلاصه امروز</h2>
+<div class="stats">
+<div class="stat"><strong id="totalHome">۰</strong><span class="muted">کل کارها</span></div>
+<div class="stat"><strong id="doneHome">۰</strong><span class="muted">انجام‌شده</span></div>
+</div>
+<div class="progress"><span id="homeProgress"></span></div>
+<p class="muted" id="homePercent">۰ درصد پیشرفت</p>
+<button class="primary" onclick="showPage('tasks')">مشاهده برنامه امروز</button>
+</div>
+<div class="card">
+<h2>کارهای امروز</h2>
+<div id="homeTasks"></div>
+</div>
+<div class="card">
+<h2>یادداشت امروز</h2>
+<textarea id="homeNote" placeholder="یادداشت امروزت..."></textarea>
+<button class="primary" onclick="saveNote()">ذخیره یادداشت</button>
+</div>
+</section>
 
-  <section class="card">
-    <h2>اهداف من</h2>
-    <p class="placeholder">
-      اهداف شخصی و مالی تو اینجا قرار می‌گیرند.
-    </p>
-  </section>
+<section id="tasks" class="page">
+<div class="card">
+<h2>برنامه روزانه</h2>
+<label>تاریخ انتخابی</label>
+<input type="date" id="taskDate">
+<label>عنوان کار جدید</label>
+<input id="taskInput" placeholder="مثلاً مطالعه، ورزش، پیگیری کار">
+<button class="primary" onclick="addTask()">افزودن کار</button>
+</div>
+<div class="card">
+<div class="row between">
+<h2>فهرست کارها</h2>
+<span class="muted" id="taskCount"></span>
+</div>
+<div id="taskList"></div>
+</div>
+</section>
+
+<section id="calendar" class="page">
+<div class="card">
+<h2>تقویم شمسی</h2>
+<div class="calendar-head">
+<button class="secondary" onclick="changeMonth(-1)">ماه قبل</button>
+<strong id="monthTitle"></strong>
+<button class="secondary" onclick="changeMonth(1)">ماه بعد</button>
+</div>
+<div class="calendar" id="calendarGrid"></div>
+<p class="muted">برای مشاهده کارهای هر روز، روی تاریخ آن بزن.</p>
+</div>
+<div class="card">
+<h2 id="selectedDateTitle">کارهای روز انتخابی</h2>
+<div id="selectedDayTasks"></div>
+<button class="primary" onclick="goToSelectedDay()">ثبت کار برای این روز</button>
+</div>
+</section>
+
+<section id="report" class="page">
+<div class="card">
+<h2>گزارش عملکرد ماهانه</h2>
+<div class="row">
+<button class="secondary" onclick="changeReportMonth(-1)">ماه قبل</button>
+<strong id="reportMonth"></strong>
+<button class="secondary" onclick="changeReportMonth(1)">ماه بعد</button>
+</div>
+<div class="stats" style="margin-top:15px">
+<div class="stat"><strong id="reportTotal">۰</strong><span class="muted">کل کارها</span></div>
+<div class="stat"><strong id="reportDone">۰</strong><span class="muted">انجام‌شده</span></div>
+<div class="stat"><strong id="reportRemain">۰</strong><span class="muted">باقی‌مانده</span></div>
+<div class="stat"><strong id="reportPercent">۰٪</strong><span class="muted">درصد موفقیت</span></div>
+</div>
+<div class="progress"><span id="reportProgress"></span></div>
+</div>
+<div class="card">
+<h2>گزارش روزانه ماه</h2>
+<div id="dailyReport"></div>
+</div>
+</section>
+
+<section id="goals" class="page">
+<div class="card">
+<h2>هدف مالی جدید</h2>
+<input id="goalName" placeholder="نام هدف">
+<input id="goalTarget" type="number" placeholder="مبلغ مورد نیاز">
+<input id="goalCurrent" type="number" placeholder="مبلغ پس‌انداز شده">
+<button class="primary" onclick="addGoal()">ثبت هدف</button>
+<p class="muted">مبالغ را به تومان وارد کن.</p>
+</div>
+<div class="card">
+<h2>اهداف من</h2>
+<div id="goalList"></div>
+</div>
+</section>
+
+<section id="settings" class="page">
+<div class="card">
+<h2>تنظیمات ظاهری</h2>
+<label>رنگ پس‌زمینه</label>
+<input class="color-input" type="color" id="bgColor" value="#f3efe3">
+<label>رنگ نوشته</label>
+<input class="color-input" type="color" id="textColor" value="#263c32">
+<label>رنگ اصلی برنامه</label>
+<input class="color-input" type="color" id="mainColor" value="#244c3e">
+<label>اندازه نوشته</label>
+<select id="fontSize">
+<option value="14px">کوچک</option>
+<option value="16px" selected>متوسط</option>
+<option value="18px">بزرگ</option>
+<option value="20px">خیلی بزرگ</option>
+</select>
+<button class="primary" onclick="saveSettings()">ذخیره تنظیمات</button>
+</div>
+<div class="card">
+<h2>پشتیبان اطلاعات</h2>
+<p class="muted">برای نگهداری اطلاعات در صورت تعویض گوشی یا پاک شدن داده‌های مرورگر، نسخه پشتیبان بگیر.</p>
+<button class="primary" onclick="backupData()">دریافت فایل پشتیبان</button>
+<label style="display:block;margin-top:15px">بازیابی اطلاعات</label>
+<input type="file" id="restoreFile" accept=".json">
+<button class="secondary" onclick="restoreData()">بازیابی فایل</button>
+</div>
+</section>
+
 </main>
+<footer>پلنر شخصی رضا · نسخه ۱</footer>
 
+<script>
+const $=id=>document.getElementById(id);
+const today=new Date();
+const todayKey=key(today);
+let selectedKey=todayKey;
+let viewYear=today.getFullYear();
+let viewMonth=today.getMonth();
+let reportYear=today.getFullYear();
+let reportMonthIndex=today.getMonth();
+
+let data={tasks:{},notes:{},goals:[],settings:{}};
+
+function key(d){
+return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function load(){
+try{
+const saved=JSON.parse(localStorage.getItem("rezaPlannerData"));
+if(saved)data=saved;
+}catch(e){}
+data.tasks=data.tasks||{};
+data.notes=data.notes||{};
+data.goals=data.goals||[];
+data.settings=data.settings||{};
+}
+function save(){
+localStorage.setItem("rezaPlannerData",JSON.stringify(data));
+}
+function fa(n){return Number(n).toLocaleString("fa-IR")}
+function jalali(d){
+return new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
+year:"numeric",month:"long",day:"numeric"
+}).format(d);
+}
+function monthName(d){
+return new Intl.DateTimeFormat("fa-IR-u-ca-persian",{year:"numeric",month:"long"}).format(d);
+}
+function showPage(id,btn){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+$(id).classList.add("active");
+document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+if(btn)btn.classList.add("active");
+if(id==="calendar")renderCalendar();
+if(id==="report")renderReport();
+if(id==="goals")renderGoals();
+if(id==="home")renderHome();
+}
+function tasksFor(k){return data.tasks[k]||[]}
+function addTask(){
+const name=$("taskInput").value.trim();
+const k=$("taskDate").value;
+if(!name||!k){alert("عنوان کار و تاریخ را وارد کن.");return}
+data.tasks[k]=tasksFor(k);
+data.tasks[k].push({name,done:false});
+$("taskInput").value="";
+save();renderTasks();renderHome();renderCalendar();
+}
+function toggleTask(k,i,checked){
+data.tasks[k][i].done=checked;
+save();renderTasks();renderHome();renderCalendar();
+}
+function deleteTask(k,i){
+if(!confirm("این کار حذف شود؟"))return;
+data.tasks[k].splice(i,1);
+if(!data.tasks[k].length)delete data.tasks[k];
+save();renderTasks();renderHome();renderCalendar();
+}
+function taskHTML(k,showDelete=true){
+const list=tasksFor(k);
+if(!list.length)return '<div class="empty">هنوز کاری ثبت نشده است.</div>';
+return list.map((t,i)=>`
+<div class="task ${t.done?'done':''}">
+<input type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${k}',${i},this.checked)">
+<span class="task-name">${escapeHTML(t.name)}</span>
+${showDelete?`<button class="danger" onclick="deleteTask('${k}',${i})">حذف</button>`:""}
+</div>`).join("");
+}
+function escapeHTML(s){
+return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function renderTasks(){
+const k=$("taskDate").value||todayKey;
+$("taskList").innerHTML=taskHTML(k);
+const list=tasksFor(k);
+$("taskCount").textContent=fa(list.filter(t=>t.done).length)+" از "+fa(list.length)+" انجام شده";
+}
+function renderHome(){
+const list=tasksFor(todayKey);
+const done=list.filter(t=>t.done).length;
+const pct=list.length?Math.round(done/list.length*100):0;
+$("totalHome").textContent=fa(list.length);
+$("doneHome").textContent=fa(done);
+$("homeProgress").style.width=pct+"%";
+$("homePercent").textContent=fa(pct)+" درصد پیشرفت";
+$("homeTasks").innerHTML=taskHTML(todayKey,false);
+$("homeNote").value=data.notes[todayKey]||"";
+}
+function saveNote(){
+data.notes[todayKey]=$("homeNote").value;
+save();alert("یادداشت ذخیره شد.");
+}
+function renderCalendar(){
+const first=new Date(viewYear,viewMonth,1);
+const count=new Date(viewYear,viewMonth+1,0).getDate();
+$("monthTitle").textContent=monthName(first);
+const start=(first.getDay()+1)%7;
+let html=["ش","ی","د","س","چ","پ","ج"].map(x=>`<div class="weekday">${x}</div>`).join("");
+for(let i=0;i<start;i++)html+="<div></div>";
+for(let d=1;d<=count;d++){
+const dt=new Date(viewYear,viewMonth,d);
+const k=key(dt);
+const has=tasksFor(k).length>0;
+html+=`<button class="day ${k===todayKey?'today':''} ${k===selectedKey?'selected':''} ${has?'has-tasks':''}" onclick="selectDay('${k}')">${fa(d)}</button>`;
+}
+$("calendarGrid").innerHTML=html;
+$("selectedDateTitle").textContent=jalali(new Date(selectedKey+"T12:00:00"));
+$("selectedDayTasks").innerHTML=taskHTML(selectedKey,false);
+}
+function selectDay(k){selectedKey=k;renderCalendar()}
+function changeMonth(n){
+viewMonth+=n;
+if(viewMonth<0){viewMonth=11;viewYear--}
+if(viewMonth>11){viewMonth=0;viewYear++}
+renderCalendar();
+}
+function goToSelectedDay(){
+$("taskDate").value=selectedKey;
+showPage("tasks");
+renderTasks();
+}
+function changeReportMonth(n){
+reportMonthIndex+=n;
+if(reportMonthIndex<0){reportMonthIndex=11;reportYear--}
+if(reportMonthIndex>11){reportMonthIndex=0;reportYear++}
+renderReport();
+}
+function renderReport(){
+const start=new Date(reportYear,reportMonthIndex,1);
+const end=new Date(reportYear,reportMonthIndex+1,1);
+$("reportMonth").textContent=monthName(start);
+let total=0,done=0,html="";
+for(let d=new Date(start);d<end;d.setDate(d.getDate()+1)){
+const k=key(d),list=tasksFor(k);
+if(!list.length)continue;
+const finished=list.filter(t=>t.done).length;
+total+=list.length;done+=finished;
+html+=`<div class="task">
+<span class="task-name">${jalali(d)}</span>
+<span class="small">${fa(finished)} از ${fa(list.length)}</span>
+</div>`;
+}
+const pct=total?Math.round(done/total*100):0;
+$("reportTotal").textContent=fa(total);
+$("reportDone").textContent=fa(done);
+$("reportRemain").textContent=fa(total-done);
+$("reportPercent").textContent=fa(pct)+"٪";
+$("reportProgress").style.width=pct+"%";
+$("dailyReport").innerHTML=html||'<div class="empty">در این ماه هنوز کاری ثبت نشده است.</div>';
+}
+function addGoal(){
+const name=$("goalName").value.trim();
+const target=Number($("goalTarget").value);
+const current=Number($("goalCurrent").value)||0;
+if(!name||target<=0){alert("نام هدف و مبلغ مورد نیاز را وارد کن.");return}
+data.goals.push({name,target,current});
+save();
+$("goalName").value="";$("goalTarget").value="";$("goalCurrent").value="";
+renderGoals();
+}
+function renderGoals(){
+if(!data.goals.length){$("goalList").innerHTML='<div class="empty">هنوز هدفی ثبت نشده است.</div>';return}
+$("goalList").innerHTML=data.goals.map((g,i)=>{
+const pct=Math.min(100,Math.round(g.current/g.target*100));
+return `<div class="goal">
+<div class="row between"><strong>${escapeHTML(g.name)}</strong><button class="danger" onclick="deleteGoal(${i})">حذف</button></div>
+<p class="muted">پس‌انداز: ${fa(g.current)} تومان از ${fa(g.target)} تومان</p>
+<div class="progress"><span style="width:${pct}%"></span></div>
+<strong>${fa(pct)}٪</strong>
+<div class="row" style="margin-top:8px">
+<input type="number" id="goalUpdate${i}" placeholder="مبلغ جدید پس‌انداز" style="margin:0">
+<button class="secondary" onclick="updateGoal(${i})">به‌روزرسانی</button>
+</div></div>`;
+}).join("");
+}
+function updateGoal(i){
+const v=Number($("goalUpdate"+i).value);
+if(v<0||!Number.isFinite(v)){alert("مبلغ معتبر وارد کن.");return}
+data.goals[i].current=v;save();renderGoals();
+}
+function deleteGoal(i){
+if(confirm("این هدف حذف شود؟")){data.goals.splice(i,1);save();renderGoals()}
+}
+function saveSettings(){
+const s={
+bg:$("bgColor").value,
+text:$("textColor").value,
+main:$("mainColor").value,
+font:$("fontSize").value
+};
+data.settings=s;save();applySettings();
+alert("تنظیمات ذخیره شد.");
+}
+function applySettings(){
+const s=data.settings||{};
+if(s.bg)document.documentElement.style.setProperty("--cream",s.bg);
+if(s.text)document.documentElement.style.setProperty("--text",s.text);
+if(s.main)document.documentElement.style.setProperty("--green",s.main);
+if(s.font)document.documentElement.style.setProperty("--font",s.font);
+if(s.bg)$("bgColor").value=s.bg;
+if(s.text)$("textColor").value=s.text;
+if(s.main)$("mainColor").value=s.main;
+if(s.font)$("fontSize").value=s.font;
+}
+function backupData(){
+const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;a.download="reza-planner-backup.json";a.click();
+URL.revokeObjectURL(url);
+}
+function restoreData(){
+const file=$("restoreFile").files[0];
+if(!file){alert("ابتدا فایل پشتیبان را انتخاب کن.");return}
+const reader=new FileReader();
+reader.onload=()=>{
+try{
+const d=JSON.parse(reader.result);
+if(!d.tasks||!d.goals)throw new Error();
+if(!confirm("اطلاعات فعلی با نسخه پشتیبان جایگزین شود؟"))return;
+data=d;save();init();alert("اطلاعات بازیابی شد.");
+}catch(e){alert("فایل پشتیبان معتبر نیست.")}
+};
+reader.readAsText(file);
+}
+function init(){
+load();
+applySettings();
+$("today").textContent=jalali(today);
+$("taskDate").value=todayKey;
+renderTasks();renderHome();renderCalendar();renderReport();renderGoals();
+}
+$("taskDate").addEventListener("change",renderTasks);
+init();
+</script>
 </body>
 </html>
