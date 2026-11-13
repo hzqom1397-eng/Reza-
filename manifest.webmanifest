@@ -1,0 +1,14 @@
+
+{
+  "name": "پلنر شخصی رضا",
+  "short_name": "پلنر رضا",
+  "description": "برنامه‌ریزی روزانه و مدیریت اهداف شخصی",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3f0e5",
+  "theme_color": "#254b40"
+}
